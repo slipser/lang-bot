@@ -1,9 +1,13 @@
-FROM golang:alpine
+FROM golang:alpine as builder
 
-WORKDIR /build
+ADD go.mod .
 
 COPY . . 
 
-RUN go build -o /lang-bot ./cmd/lang-bot/main.go
+RUN GOPATH= go build -o /lang-bot ./cmd/lang-bot/main.go
+
+FROM alpine
+
+COPY --from=builder lang-bot lang-bot
 
 CMD ["/lang-bot"]
