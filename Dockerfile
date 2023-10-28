@@ -1,13 +1,19 @@
 FROM golang:alpine as builder
 
-ADD go.mod .
+WORKDIR /build
 
-COPY . . 
+COPY go.mod .
 
-RUN GOPATH= go build -o /lang-bot ./cmd/lang-bot/main.go
+COPY go.sum .
+
+RUN go mod download
+
+COPY . .
+
+RUN GOPATH= go build -o /lang-bot cmd/lang-bot/main.go
 
 FROM alpine
 
-COPY --from=builder lang-bot lang-bot
+COPY --from=builder lang-bot /build/lang-bot
 
-CMD ["/lang-bot"]
+CMD ["/build/lang-bot"]
