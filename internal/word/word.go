@@ -1,9 +1,14 @@
 package word
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Word struct {
-	Word string
+	ID   uuid.UUID
+	Text string
 	//Translation string
 	CreatedAt time.Time
 }

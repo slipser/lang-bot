@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
@@ -10,7 +11,7 @@ type App struct {
 	Bot *tgbotapi.BotAPI
 }
 
-func NewApp(apikey string) App {
+func NewApp(ctx context.Context, apikey string) App {
 	bot := StartBot(apikey)
 
 	return App{
@@ -31,7 +32,7 @@ func StartBot(apikey string) *tgbotapi.BotAPI {
 	return bot
 }
 
-func (a App) BotUpdate() {
+func (a App) BotUpdate(ctx context.Context) {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 

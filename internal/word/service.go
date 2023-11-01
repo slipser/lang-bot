@@ -1,5 +1,7 @@
 package word
 
+import "context"
+
 type Service interface {
-	AddWord(text string) Word
+	AddWord(ctx context.Context, text string) (Word, error)
 }

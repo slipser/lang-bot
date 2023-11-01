@@ -1,11 +1,14 @@
 package main
 
 import (
+	"context"
 	"lang-bot/internal/app"
 	"os"
 )
 
 func main() {
-	app := app.NewApp(os.Getenv("TELEGRAM_BOT_APIKEY"))
-	app.BotUpdate()
+	ctx := context.Background()
+
+	app := app.NewApp(ctx, os.Getenv("TELEGRAM_BOT_APIKEY"))
+	app.BotUpdate(ctx)
 }
