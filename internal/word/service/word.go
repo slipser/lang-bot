@@ -33,3 +33,12 @@ func (s WordService) AddWord(ctx context.Context, text string) (word.Word, error
 
 	return newWord, nil
 }
+
+func (s WordService) GetWords(ctx context.Context) ([]word.Word, error) {
+	words, err := s.wordRepository.GetWords(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return words, nil
+}

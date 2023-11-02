@@ -20,3 +20,20 @@ func TestAddWord(t *testing.T) {
 
 	assert.Equal(t, text, w.Text)
 }
+
+func TestGetWords(t *testing.T) {
+	ls := localcache.NewWordLocalStorage()
+	s := service.NewWordService(ls)
+
+	count := 10
+
+	for i := 0; i < count; i++ {
+		_, err := s.AddWord(context.Background(), "Test")
+		assert.NoError(t, err)
+	}
+
+	w, err := s.GetWords(context.Background())
+	assert.NoError(t, err)
+
+	assert.Equal(t, len(w), count)
+}

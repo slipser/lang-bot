@@ -9,6 +9,6 @@ import (
 func main() {
 	ctx := context.Background()
 
-	app := app.NewApp(ctx, os.Getenv("TELEGRAM_BOT_APIKEY"))
-	app.BotUpdate(ctx)
+	app := app.NewApp(os.Getenv("TELEGRAM_BOT_APIKEY"))
+	app.Bot.BotUpdate(ctx)
 }
