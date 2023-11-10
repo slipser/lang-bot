@@ -7,8 +7,8 @@ import (
 )
 
 type Word struct {
-	ID   uuid.UUID
-	Text string
-	//Translation string
-	CreatedAt time.Time
+	ID          uuid.UUID
+	Text        string
+	Translation string
+	CreatedAt   time.Time
 }

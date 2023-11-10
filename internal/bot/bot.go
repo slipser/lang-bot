@@ -62,10 +62,10 @@ func (b Bot) BotUpdate(ctx context.Context) {
 				isWaitingWord = false
 				_, err := b.wordService.AddWord(ctx, update.Message.Text)
 				if err != nil {
-					msg = tgbotapi.NewMessage(update.Message.Chat.ID, "error")
+					msg = tgbotapi.NewMessage(update.Message.Chat.ID, "error"+err.Error())
+				} else {
+					msg = tgbotapi.NewMessage(update.Message.Chat.ID, "add!")
 				}
-
-				msg = tgbotapi.NewMessage(update.Message.Chat.ID, "add!")
 			}
 
 			switch update.Message.Text {
@@ -75,13 +75,14 @@ func (b Bot) BotUpdate(ctx context.Context) {
 			case "/get":
 				words, err := b.wordService.GetWords(ctx)
 				if err != nil {
-					msg = tgbotapi.NewMessage(update.Message.Chat.ID, "error")
+					msg = tgbotapi.NewMessage(update.Message.Chat.ID, "error"+err.Error())
+					continue
 				}
 
-				allWords := ""
+				allWords := "words: "
 
 				for _, word := range words {
-					allWords += word.Text + " "
+					allWords += word.Text + " : " + word.Translation + " "
 				}
 
 				msg = tgbotapi.NewMessage(update.Message.Chat.ID, allWords)

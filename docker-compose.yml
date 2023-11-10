@@ -5,3 +5,21 @@ services:
     build: .
     env_file:
       - .env
+    environment:
+      LIBRETRANSLATE_URL: http://libretranslate:5000/translate
+    networks:
+      - docker_network
+    depends_on:
+      - libretranslate
+  libretranslate:
+    image: libretranslate/libretranslate
+    ports:
+      - "5000:5000"
+    networks:
+      - docker_network
+    environment:
+      - LT_LOAD_ONLY=ru,en
+
+networks:
+  docker_network:
+    driver: bridge

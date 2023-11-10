@@ -2,6 +2,7 @@ package service_test
 
 import (
 	"context"
+	translationService "lang-bot/internal/translation/service"
 	"lang-bot/internal/word/repository/localcache"
 	"lang-bot/internal/word/service"
 	"testing"
@@ -11,7 +12,8 @@ import (
 
 func TestAddWord(t *testing.T) {
 	ls := localcache.NewWordLocalStorage()
-	s := service.NewWordService(ls)
+	ts := translationService.NewTranslationService()
+	s := service.NewWordService(ls, ts)
 
 	text := "Test"
 
@@ -23,7 +25,8 @@ func TestAddWord(t *testing.T) {
 
 func TestGetWords(t *testing.T) {
 	ls := localcache.NewWordLocalStorage()
-	s := service.NewWordService(ls)
+	ts := translationService.NewTranslationService()
+	s := service.NewWordService(ls, ts)
 
 	count := 10
 

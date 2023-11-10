@@ -2,9 +2,10 @@ package app
 
 import (
 	"lang-bot/internal/bot"
+	translationService "lang-bot/internal/translation/service"
 	"lang-bot/internal/word"
 	"lang-bot/internal/word/repository/localcache"
-	"lang-bot/internal/word/service"
+	wordService "lang-bot/internal/word/service"
 )
 
 type App struct {
@@ -13,8 +14,10 @@ type App struct {
 }
 
 func NewApp(apikey string) App {
+	translationService := translationService.NewTranslationService()
+
 	wordRepository := localcache.NewWordLocalStorage()
-	wordService := service.NewWordService(wordRepository)
+	wordService := wordService.NewWordService(wordRepository, translationService)
 
 	bot := bot.NewBot(apikey, wordService)
 

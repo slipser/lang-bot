@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"lang-bot/internal/translation"
 	"lang-bot/internal/word"
 	"time"
 
@@ -9,24 +10,32 @@ import (
 )
 
 type WordService struct {
-	wordRepository word.Repository
+	wordRepository     word.Repository
+	translationService translation.Service
 }
 
-func NewWordService(wordRepository word.Repository) WordService {
+func NewWordService(wordRepository word.Repository, translationService translation.Service) WordService {
 	return WordService{
-		wordRepository: wordRepository,
+		wordRepository:     wordRepository,
+		translationService: translationService,
 	}
 
 }
 
 func (s WordService) AddWord(ctx context.Context, text string) (word.Word, error) {
-	newWord := word.Word{
-		ID:        uuid.New(),
-		Text:      text,
-		CreatedAt: time.Now(),
+	translation, err := s.translationService.GetTranslation(ctx, text)
+	if err != nil {
+		return word.Word{}, err
 	}
 
-	err := s.wordRepository.AddWord(ctx, newWord)
+	newWord := word.Word{
+		ID:          uuid.New(),
+		Text:        text,
+		Translation: translation,
+		CreatedAt:   time.Now(),
+	}
+
+	err = s.wordRepository.AddWord(ctx, newWord)
 	if err != nil {
 		return word.Word{}, err
 	}
